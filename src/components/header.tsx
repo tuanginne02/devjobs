@@ -19,6 +19,8 @@ import { Moon, Sun } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import Logo from "@/assets/logo.png"
 import LogoDark from "@/assets/logoDark.png"
+import LogoMobile from "@/assets/logoMobile.png"
+
 
 
 const Header = () => {
@@ -46,13 +48,22 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          {theme === "dark" ? (
-            <Link to="/" className="h-20 w-36">
-              <img src={LogoDark} alt="DevJob Logo" className="h-full w-full" />
-            </Link>
-          ) : (
-            <Link to="/" className="h-20 w-36"> <img src={Logo} alt="DevJob Logo" className="h-full w-full" /></Link>
-          )}
+          <div className="flex items-center justify-between">
+            <div className="hidden md:flex items-center space-x-8 gap-6">
+              {theme === "dark" ? (
+                <Link to="/" className="h-20 w-36">
+                  <img src={LogoDark} alt="DevJob Logo" className="h-full w-full" />
+                </Link>
+              ) : (
+                <Link to="/" className="h-20 w-36"> <img src={Logo} alt="DevJob Logo" className="h-full w-full" /></Link>
+              )}
+            </div>
+            <div className="flex md:hidden items-center space-x-8 gap-6">
+              <Link to="/" className="h-16 w-32">
+                <img src={LogoMobile} alt="DevJob Logo" className="h-full w-full" />
+              </Link>
+            </div>
+          </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8 gap-6">
@@ -235,6 +246,7 @@ const Header = () => {
                   <SheetTitle>DevJob</SheetTitle>
                   <SheetDescription>Find your dream developer job</SheetDescription>
                 </SheetHeader>
+                
                 {/* Companies  */}
                 <DropdownMenu>
                   {/* <div className="relative group"> */}
@@ -280,110 +292,99 @@ const Header = () => {
                   {/* )} */}
                   {/* </div> */}
                 </DropdownMenu>
-                <div className="grid gap-4 py-4">
-                  {/* Resume  */}
-                  {isAuthenticated && hasPermission("manageResumes") && (
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className={isActive("/resumes") ? "text-primary" : ""}>
-                          <FileText className="mr-2 h-4 w-4" />
-                          Resumes & CV
-                          <ChevronDown className="ml-1 h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent>
-                        <DropdownMenuItem>
-                          <Link to="/resumes" className="w-full">
-                            My Resumes
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          <Link to="/resumes/upload" className="w-full">
-                            Upload Resume
-                          </Link>
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  )}
-                    // Pro
-                  {isAuthenticated && !hasPermission("accessProFeatures") && (
-                    <DropdownMenu >
-                      <DropdownMenuTrigger>
-                        {userRole !== "PRO" && (
-                          <Link to="/pro">
-                            <Button variant="outline" className="gap-2">
-                              <Star className="h-4 w-4" />
-                              Go Pro
-                            </Button>
-                          </Link>
-                        )}
-                      </DropdownMenuTrigger>
-                    </DropdownMenu>
-                  )}
-                 // Job
+                {/* Resume  */}
+                {isAuthenticated && hasPermission("manageResumes") && (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className={isActive("/jobs") ? "text-primary" : ""}
-                      // onClick={() => setIsJobOpen(!isJobOpen)}
-                      >
-                        <Briefcase className="mr-2 h-4 w-4" />
-                        Jobs
+                      <Button variant="ghost" className={isActive("/resumes") ? "text-primary" : ""}>
+                        <FileText className="mr-2 h-4 w-4" />
+                        Resumes & CV
                         <ChevronDown className="ml-1 h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      {/* {isJobOpen && ( */}
-                      {/* <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 z-10"> */}
-                      {/* <div className="py-1"> */}
                       <DropdownMenuItem>
-                        <Link
-                          to="/jobs"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-                        >
-                          Browse Jobs
+                        <Link to="/resumes" className="w-full">
+                          My Resumes
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem>
-                        <Link
-                          to={`/jobs/${jobId}/apply`}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-                        >
-                          Applied Jobs
+                        <Link to="/resumes/upload" className="w-full">
+                          Upload Resume
                         </Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Link
-                          to={`/jobs/${jobId}/apply/success`}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-                        >
-                          Saved Jobs
-                        </Link>
-                      </DropdownMenuItem>
-                      {/* </div> */}
-                      {/* </div> */}
-                      {/* )} */}
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  {isAuthenticated && (
-                    <Link to="/profile" className="flex items-center gap-2 py-2">
-                      <User className="h-4 w-4" />
-                      Profile
-                    </Link>
-                  )}
-                  {isAuthenticated && hasPermission("accessDashboard") && (
-                    <Link to="/dashboard" className="flex items-center gap-2 py-2">
-                      <Shield className="h-4 w-4" />
-                      Dashboard
-                    </Link>
-                  )}
-                  {isAuthenticated && (
-                    <Button variant="ghost" className="justify-start px-2" onClick={() => logout()}>
-                      Logout
+                )}
+                {/* // Pro */}
+                {isAuthenticated && !hasPermission("accessProFeatures") && (
+                  <DropdownMenu >
+                    <DropdownMenuTrigger>
+                      {userRole !== "PRO" && (
+                        <Link to="/pro">
+                          <Button variant="outline" className="gap-2">
+                            <Star className="h-4 w-4" />
+                            Go Pro
+                          </Button>
+                        </Link>
+                      )}
+                    </DropdownMenuTrigger>
+                  </DropdownMenu>
+                )}
+                {/* // Job */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className={isActive("/jobs") ? "text-primary" : ""}>
+                      <Briefcase className="mr-2 h-4 w-4" />
+                      Jobs
+                      <ChevronDown className="ml-1 h-4 w-4" />
                     </Button>
-                  )}
-                </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem>
+                      <Link
+                        to="/jobs"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                      >
+                        Browse Jobs
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link
+                        to={`/jobs/${jobId}/apply`}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                      >
+                        Applied Jobs
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link
+                        to={`/jobs/${jobId}/apply/success`}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                      >
+                        Saved Jobs
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                {!isAuthenticated && (
+                  <div className="mt-10 space-x-5">
+                    <Link
+                      to="/login"
+                    >
+                      <Button variant="ghost"> Sign In</Button>
+                    </Link>
+
+                    <Link to="/register">
+                      <Button>Register</Button>
+                    </Link>
+                  </div>
+                )}
+
+
               </SheetContent>
             </Sheet>
           </div>

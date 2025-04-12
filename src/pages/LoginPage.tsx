@@ -21,7 +21,6 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import Header from "../components/header"
-import Footer from "../components/footer"
 import { useAuth } from "@/contexts/auth-context"
 import { useToast } from "@/components/ui/use-toast"
 import { useTheme } from "@/components/theme-provider"
@@ -309,7 +308,6 @@ const LoginPage = () => {
           </AlertDialogContent>
         </AlertDialog>
       </main >
-      <Footer />
     </div >
   )
 }
